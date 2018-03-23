@@ -6,27 +6,26 @@ import gov.nasa.jpf.Config;
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.ListenerAdapter;
 import gov.nasa.jpf.search.Search;
-import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.Step;
 import model.State;
+import model.Transition;
 
 /**
  * A listener that builds a 3D state space visual application that is explored by JPF.
  * Loosely based off of gov.nasa.jpf.listener.StateSpaceDot.
  *
  * @author Kevin Arindaeng
- * @version 1.0
+ * @version 1.1
  * @since 2018-03-23
  */
 public class StateSpace3D extends ListenerAdapter {
 
 	private HashMap<Integer, State> states;
-	private List<String> transitions;
+	private List<Transition> transitions;
 
 	public StateSpace3D(Config conf, JPF jpf) {
-		VM vm = jpf.getVM();
-		vm.recordSteps(true);
 		this.states = new HashMap<Integer, State>();
-		this.transitions = new ArrayList<String>();
+		this.transitions = new ArrayList<Transition>();
 	}
 
 	@Override
@@ -36,18 +35,43 @@ public class StateSpace3D extends ListenerAdapter {
 
 	@Override
 	public void searchFinished(Search search) {
+		
+		System.out.println("--- States --- ");
 		for(State state : states.values()) {
 			System.out.println(state.toString());
 		}
+		
+		System.out.println("\n--- Transitions --- ");
+		for(Transition transition : transitions) {
+			System.out.println(transition.toString());
+		}
+		
+		/*
+		 * A method here that takes in the collection of states and transitions
+		 * and creates the 3D state space to the user. Example method call below
+		 */
+		//create3DStateSpace(this.states, this.transitions);
 	}
 
 	@Override
 	public void stateAdvanced(Search search) {
-		int id = search.getStateId();
+		int stateId = search.getStateId();
 		boolean hasNext = search.hasNextState();
 		boolean isNew = search.isNewState();
 		boolean isEndState = search.isEndState();
-		states.put(id, new State(id, hasNext, isNew, isEndState));
+		states.put(stateId, new State(stateId, hasNext, isNew, isEndState));
+		
+		String step = "";
+		gov.nasa.jpf.vm.Transition trans = search.getTransition();
+		if (trans == null) {
+			step = "-init-";
+		} else if (trans.getLastStep() == null) {
+			step = "?";
+		} else {
+			step = trans.getLastStep().toString();
+		}
+		int threadId = trans.getThreadIndex();
+		transitions.add(new Transition(threadId, step));
 	}
 
 	@Override
