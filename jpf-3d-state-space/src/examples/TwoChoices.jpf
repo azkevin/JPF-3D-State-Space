@@ -1,0 +1,5 @@
+target=examples.TwoChoices 
+classpath=\bin
+native_classpath=\bin
+cg.enumerate_random=true
+listener=StateSpace3D
