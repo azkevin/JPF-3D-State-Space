@@ -51,7 +51,7 @@ public class StateSpace3D extends ListenerAdapter {
 		 * A method here that takes in the collection of states and transitions
 		 * and creates the 3D state space to the user. Example method call below
 		 */
-		//create3DStateSpace(this.states, this.transitions);
+		//create3DStateSpace(this.states, this.edges);
 	}
 
 	@Override
