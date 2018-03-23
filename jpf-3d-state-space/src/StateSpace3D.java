@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import gov.nasa.jpf.Config;
@@ -6,6 +7,7 @@ import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.ListenerAdapter;
 import gov.nasa.jpf.search.Search;
 import gov.nasa.jpf.vm.VM;
+import model.State;
 
 /**
  * A listener that builds a 3D state space visual application that is explored by JPF.
@@ -17,13 +19,13 @@ import gov.nasa.jpf.vm.VM;
  */
 public class StateSpace3D extends ListenerAdapter {
 
-	private List<String> states;
+	private HashMap<Integer, State> states;
 	private List<String> transitions;
 
 	public StateSpace3D(Config conf, JPF jpf) {
 		VM vm = jpf.getVM();
 		vm.recordSteps(true);
-		this.states = new ArrayList<String>();
+		this.states = new HashMap<Integer, State>();
 		this.transitions = new ArrayList<String>();
 	}
 
@@ -34,10 +36,18 @@ public class StateSpace3D extends ListenerAdapter {
 
 	@Override
 	public void searchFinished(Search search) {
+		for(State state : states.values()) {
+			System.out.println(state.toString());
+		}
 	}
 
 	@Override
 	public void stateAdvanced(Search search) {
+		int id = search.getStateId();
+		boolean hasNext = search.hasNextState();
+		boolean isNew = search.isNewState();
+		boolean isEndState = search.isEndState();
+		states.put(id, new State(id, hasNext, isNew, isEndState));
 	}
 
 	@Override
