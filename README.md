@@ -12,7 +12,7 @@ A JPF listener that allows the user to view and analyze their application’s st
 
 4. Right click "JPF-3D-State-Space [master]" and select "Import Projects..". Only select JPF-3D-State-Space\jpf-3d-state-space and press Finish.
 
-5. Change the value of "path" below to the absolute path of [jpf-core\build\jpf.jar](https://babelfish.arc.nasa.gov/trac/jpf/wiki/install/start) in your system found in [JPF-3D-State-Space\jpf-3d-state-space\.classpath](/JPF-3D-State-Space/jpf-3d-state-space/.classpath). Any dependency errors should be resolved.
+5. Change the value of "path" below to the absolute path of [jpf-core\build\jpf.jar](https://babelfish.arc.nasa.gov/trac/jpf/wiki/install/start) in your system found in [JPF-3D-State-Space\jpf-3d-state-space\.classpath](jpf-3d-state-space/.classpath). Any dependency errors should be resolved.
 
 That is, 
 
@@ -20,9 +20,9 @@ That is,
 <classpathentry kind="lib" path="<ABSOLUTE_PATH_HERE>/jpf-core/build/jpf.jar" sourcepath=""/>
 ```
 
-## How to Run
+## How to Run using Eclipse
 
-Under [JPF-3D-State-Space\jpf-3d-state-space\src\examples](/JPF-3D-State-Space/jpf-3d-state-space/src/examples/), right click any .jpf file, and press "Verify...".
+Under [JPF-3D-State-Space\jpf-3d-state-space\src\examples](jpf-3d-state-space/src/examples/), right click any .jpf file, and press "Verify...".
 
 Alternatively, you can create your own .jpf file with your application and run it with the ```StateSpace3D``` listener.
 
