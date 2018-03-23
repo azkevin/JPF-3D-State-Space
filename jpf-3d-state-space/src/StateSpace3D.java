@@ -6,26 +6,27 @@ import gov.nasa.jpf.Config;
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.ListenerAdapter;
 import gov.nasa.jpf.search.Search;
-import gov.nasa.jpf.vm.Step;
 import model.State;
-import model.Transition;
+import model.Edge;
 
 /**
  * A listener that builds a 3D state space visual application that is explored by JPF.
  * Loosely based off of gov.nasa.jpf.listener.StateSpaceDot.
  *
  * @author Kevin Arindaeng
- * @version 1.1
+ * @version 1.2
  * @since 2018-03-23
  */
 public class StateSpace3D extends ListenerAdapter {
 
+	private int edgeCounter;
 	private HashMap<Integer, State> states;
-	private List<Transition> transitions;
+	private List<Edge> edges;
 
 	public StateSpace3D(Config conf, JPF jpf) {
 		this.states = new HashMap<Integer, State>();
-		this.transitions = new ArrayList<Transition>();
+		this.edges = new ArrayList<Edge>();
+		this.edgeCounter = 0;
 	}
 
 	@Override
@@ -41,8 +42,8 @@ public class StateSpace3D extends ListenerAdapter {
 			System.out.println(state.toString());
 		}
 		
-		System.out.println("\n--- Transitions --- ");
-		for(Transition transition : transitions) {
+		System.out.println("\n--- Edges --- ");
+		for(Edge transition : edges) {
 			System.out.println(transition.toString());
 		}
 		
@@ -61,17 +62,8 @@ public class StateSpace3D extends ListenerAdapter {
 		boolean isEndState = search.isEndState();
 		states.put(stateId, new State(stateId, hasNext, isNew, isEndState));
 		
-		String step = "";
-		gov.nasa.jpf.vm.Transition trans = search.getTransition();
-		if (trans == null) {
-			step = "-init-";
-		} else if (trans.getLastStep() == null) {
-			step = "?";
-		} else {
-			step = trans.getLastStep().toString();
-		}
-		int threadId = trans.getThreadIndex();
-		transitions.add(new Transition(threadId, step));
+		edges.add(new Edge(this.edgeCounter, search.getTransition().getThreadInfo()));
+		this.edgeCounter++;
 	}
 
 	@Override
