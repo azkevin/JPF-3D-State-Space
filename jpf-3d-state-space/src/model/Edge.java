@@ -12,17 +12,17 @@ import gov.nasa.jpf.vm.ThreadInfo;
 public class Edge {
 	
 	private int edgeId;
-	private ThreadInfo executedThread;
+	private String edgeInfo;
 	
-	public Edge(int edgeId, ThreadInfo executedThread) {
+	public Edge(int edgeId, String edgeInfo) {
 		this.edgeId = edgeId;
-		this.executedThread = executedThread;
+		this.edgeInfo = edgeInfo;
 	}
 	
 	@Override
 	public String toString() {
 		return "edgeId: " + this.edgeId + 
-				", lastExecutedClass: " + this.executedThread.toString();
+				", edgeInfo: " + this.edgeInfo;
 	}
 	
 }

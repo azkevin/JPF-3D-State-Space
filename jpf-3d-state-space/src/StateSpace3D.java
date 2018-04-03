@@ -6,6 +6,8 @@ import gov.nasa.jpf.Config;
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.ListenerAdapter;
 import gov.nasa.jpf.search.Search;
+import gov.nasa.jpf.vm.Step;
+import gov.nasa.jpf.vm.Transition;
 import model.State;
 import model.Edge;
 
@@ -61,21 +63,51 @@ public class StateSpace3D extends ListenerAdapter {
 		boolean isNew = search.isNewState();
 		boolean isEndState = search.isEndState();
 		states.put(stateId, new State(stateId, hasNext, isNew, isEndState));
+		edges.add(new Edge(this.edgeCounter, getEdgeLabel(search, stateId)));
 		
-		edges.add(new Edge(this.edgeCounter, search.getTransition().getThreadInfo()));
 		this.edgeCounter++;
 	}
 
 	@Override
 	public void stateRestored(Search search) {
+		
 	}
 
 	@Override
 	public void stateProcessed(Search search) {
+		
 	}
 
 	@Override
 	public void stateBacktracked(Search search) {
+		
+	}
+	
+	/**
+	 * Return the string that will be used to label this edge for the user.
+	 * Loosely based off of gov.nasa.jpf.listener.StateSpaceDot.makeDotLabel()
+	 * 
+	 */
+	private String getEdgeLabel(Search state, int my_id) {
+		Transition trans = state.getTransition();
+		if (trans == null) {
+			return "-init-";
+		}
+		Step last_trans_step = trans.getLastStep();
+		if (last_trans_step == null) {
+			return "?";
+		}
+
+		StringBuilder result = new StringBuilder();
+
+		int thread = trans.getThreadIndex();
+
+		result.append("Thd");
+		result.append(thread);
+		result.append(':');
+		result.append(last_trans_step.toString());
+
+		return result.toString();
 	}
 
 }
