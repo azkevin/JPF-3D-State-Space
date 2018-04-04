@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,13 +22,17 @@ import model.Edge;
  */
 public class StateSpace3D extends ListenerAdapter {
 
-	private int edgeCounter;
 	private HashMap<Integer, State> states;
 	private List<Edge> edges;
+	private List<String> transitions;
+	
+	private State prevState = null;
+	private int edgeCounter;
 
 	public StateSpace3D(Config conf, JPF jpf) {
 		this.states = new HashMap<Integer, State>();
 		this.edges = new ArrayList<Edge>();
+		this.transitions = new ArrayList<String>();
 		this.edgeCounter = 0;
 	}
 
@@ -45,8 +50,13 @@ public class StateSpace3D extends ListenerAdapter {
 		}
 		
 		System.out.println("\n--- Edges --- ");
-		for(Edge transition : edges) {
-			System.out.println(transition.toString());
+		for(Edge edge : edges) {
+			System.out.println(edge.toString());
+		}
+		
+		System.out.println("\n--- Transitions --- ");
+		for(String transition : transitions) {
+			System.out.println(transition);
 		}
 		
 		/*
@@ -62,14 +72,21 @@ public class StateSpace3D extends ListenerAdapter {
 		boolean hasNext = search.hasNextState();
 		boolean isNew = search.isNewState();
 		boolean isEndState = search.isEndState();
-		states.put(stateId, new State(stateId, hasNext, isNew, isEndState));
+		if (this.prevState != null) {
+			this.addTransition(this.prevState.getStateId(), stateId);
+		} else {
+			this.prevState = new State();
+		}
+		
+		states.put(stateId, new State(stateId, hasNext, isNew, isEndState, null));
 		edges.add(new Edge(this.edgeCounter, getEdgeLabel(search, stateId)));
 		
-		this.edgeCounter++;
+		this.prevState.setState(stateId, hasNext, isNew, isEndState, null);
 	}
 
 	@Override
 	public void stateRestored(Search search) {
+		this.prevState.setState(search.getStateId(), search.hasNextState(), search.isNewState(), search.isEndState(), null);
 		
 	}
 
@@ -80,7 +97,7 @@ public class StateSpace3D extends ListenerAdapter {
 
 	@Override
 	public void stateBacktracked(Search search) {
-		
+		this.prevState.setState(search.getStateId(), search.hasNextState(), search.isNewState(), search.isEndState(), null);
 	}
 	
 	/**
@@ -110,4 +127,13 @@ public class StateSpace3D extends ListenerAdapter {
 		return result.toString();
 	}
 
+	/**
+	 * Creates a transition: currentState --> nextEdge --> nextState
+	 * Loosely based off of gov.nasa.jpf.listener.StateSpaceDot.addEdge()
+	 */
+	private void addTransition(int oldId, int newId) {
+		int id = this.edgeCounter++;
+		transitions.add("state" + oldId + " -> edge" + id);
+		transitions.add("edge" + id + " -> state" + newId);
+	}
 }
