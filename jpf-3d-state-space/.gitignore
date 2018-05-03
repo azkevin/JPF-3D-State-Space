@@ -1,0 +1,8 @@
+#to avoid db url conflicts after a git pull
+context.xml
+.classpath
+.settings
+*.class
+
+#bin folder
+**/bin
