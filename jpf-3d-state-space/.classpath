@@ -2,7 +2,20 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/KArin/Desktop/EECS4315/jpf/jpf-core/build/jpf.jar" sourcepath="/jpf-core"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/LWJGL3"/>
+	<classpathentry kind="lib" path="libraries/joml-1.9.9.jar"/>
+	<classpathentry kind="lib" path="libraries/jpf.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-glfw-natives-linux.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-glfw-natives-macos.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-glfw-natives-windows.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-glfw.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-natives-macos.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-opengl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-opengl-natives-macos.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-opengl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-opengl.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl.jar"/>
+	<classpathentry kind="lib" path="libraries/PNGDecoder.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
