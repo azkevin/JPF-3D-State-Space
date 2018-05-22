@@ -8,17 +8,9 @@ A JPF listener that allows the user to view and analyze their application’s st
 
 2. Install [Eclipse JPF plugin](https://babelfish.arc.nasa.gov/trac/jpf/wiki/install/eclipse-plugin) to your Eclipse IDE. 
 
-3. Under the Git Repositories view in Eclipse, select "Clone a Git repository. Enter this repository's URL under the URI field and press Next.
+3. Under the Git Repositories view in Eclipse, select "Clone a Git repository. Enter this repository's URL under the URI field and press Next until Finish.
 
 4. Right click "JPF-3D-State-Space [master]" and select "Import Projects..". Only select JPF-3D-State-Space\jpf-3d-state-space and press Finish.
-
-5. Change the value of "path" below to the absolute path of [jpf-core\build\jpf.jar](https://babelfish.arc.nasa.gov/trac/jpf/wiki/install/start) in your system found in [JPF-3D-State-Space\jpf-3d-state-space\.classpath](jpf-3d-state-space/.classpath). Any dependency errors should be resolved.
-
-That is, 
-
-```
-<classpathentry kind="lib" path="<ABSOLUTE_PATH_HERE>/jpf-core/build/jpf.jar" sourcepath=""/>
-```
 
 ## How to Run using Eclipse
 
