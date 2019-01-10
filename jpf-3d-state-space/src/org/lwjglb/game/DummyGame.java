@@ -141,12 +141,19 @@ public class DummyGame implements IGameLogic {
     @Override
     public void init(Window window) throws Exception {
         renderer.init(window);
-        Texture texture = new Texture("/textures/redblockwithborder.png");
-        Mesh mesh = new Mesh(positions, textCoords, indices, texture);
-        gameItems = new GameItem[states.size()];
+        Texture redTexture = new Texture("/textures/redblockwithborder.png");
+        Texture greenTexture = new Texture("/textures/greenblockwithborder.png");
+        Mesh redMesh = new Mesh(positions, textCoords, indices, redTexture);
+        Mesh greenMesh = new Mesh(positions, textCoords, indices, greenTexture);
+        gameItems = new GameItem[states.size() + edges.size()];
         for(int i = 0; i < states.size(); i++) {
-        	GameItem gameItem = new GameItem(mesh);
+        	GameItem gameItem = new GameItem(redMesh);
             gameItem.setPosition(0, 0 + i*4, -11);
+            gameItems[i] = gameItem;
+        }
+        for(int i = states.size(); i < states.size() + edges.size(); i++) {
+        	GameItem gameItem = new GameItem(greenMesh);
+            gameItem.setPosition(-6 + i*2, 2, -11);
             gameItems[i] = gameItem;
         }
     }

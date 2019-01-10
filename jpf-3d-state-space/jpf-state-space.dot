@@ -1,14 +1,32 @@
 digraph jpf_state_space {
 /* searchAdvanced(0, Thd0:java/util/Random.java:-1, true) */
-/* searchAdvanced(1, Thd0:examples/OneChoice.java:3, false) */
+/* searchAdvanced(1, Thd0:java/util/Random.java:-1, true) */
   st0 -> tr0;
-  tr0 [label="Thd0:examples/OneChoice.java:3",shape=box]
+  tr0 [label="Thd0:java/util/Random.java:-1",shape=box]
   tr0 -> st1;  st0 [label="0",shape=circle,color=black];
-  st1 [label="1",shape=egg,color=green];
+/* searchAdvanced(2, Thd0:examples/TwoChoices.java:3, false) */
+  st1 -> tr1;
+  tr1 [label="Thd0:examples/TwoChoices.java:3",shape=box]
+  tr1 -> st2;  st1 [label="1",shape=circle,color=black];
+  st2 [label="2",shape=egg,color=green];
 /* searchBacktracked(gov.nasa.jpf.listener.StateSpaceDot$StateInformation@1786dec2) */
-/* searchAdvanced(1, Thd0:examples/OneChoice.java:3, false) */
-  st0 -> tr1;
-  tr1 [label="Thd0:examples/OneChoice.java:3",shape=box]
-  tr1 -> st1;/* searchBacktracked(gov.nasa.jpf.listener.StateSpaceDot$StateInformation@1786dec2) */
+/* searchAdvanced(2, Thd0:examples/TwoChoices.java:3, false) */
+  st1 -> tr2;
+  tr2 [label="Thd0:examples/TwoChoices.java:3",shape=box]
+  tr2 -> st2;/* searchBacktracked(gov.nasa.jpf.listener.StateSpaceDot$StateInformation@1786dec2) */
+/* searchBacktracked(gov.nasa.jpf.listener.StateSpaceDot$StateInformation@1786dec2) */
+/* searchAdvanced(3, Thd0:java/util/Random.java:-1, true) */
+  st0 -> tr3;
+  tr3 [label="Thd0:java/util/Random.java:-1",shape=box]
+  tr3 -> st3;/* searchAdvanced(2, Thd0:examples/TwoChoices.java:3, false) */
+  st3 -> tr4;
+  tr4 [label="Thd0:examples/TwoChoices.java:3",shape=box]
+  tr4 -> st2;  st3 [label="3",shape=circle,color=black];
+/* searchBacktracked(gov.nasa.jpf.listener.StateSpaceDot$StateInformation@1786dec2) */
+/* searchAdvanced(2, Thd0:examples/TwoChoices.java:3, false) */
+  st3 -> tr5;
+  tr5 [label="Thd0:examples/TwoChoices.java:3",shape=box]
+  tr5 -> st2;/* searchBacktracked(gov.nasa.jpf.listener.StateSpaceDot$StateInformation@1786dec2) */
+/* searchBacktracked(gov.nasa.jpf.listener.StateSpaceDot$StateInformation@1786dec2) */
 /* searchBacktracked(gov.nasa.jpf.listener.StateSpaceDot$StateInformation@1786dec2) */
 }

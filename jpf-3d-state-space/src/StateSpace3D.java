@@ -82,12 +82,13 @@ public class StateSpace3D extends ListenerAdapter {
 		boolean isEndState = search.isEndState();
 		if (this.prevState != null) {
 			this.addTransition(this.prevState.getStateId(), stateId);
+			edges.add(new Edge(this.edgeCounter, getEdgeLabel(search, stateId)));
+			this.edgeCounter++;
 		} else {
 			this.prevState = new State();
 		}
 		
 		states.put(stateId, new State(stateId, hasNext, isNew, isEndState, null));
-		edges.add(new Edge(this.edgeCounter, getEdgeLabel(search, stateId)));
 		
 		this.prevState.setState(stateId, hasNext, isNew, isEndState, null);
 	}
@@ -140,7 +141,7 @@ public class StateSpace3D extends ListenerAdapter {
 	 * Loosely based off of gov.nasa.jpf.listener.StateSpaceDot.addEdge()
 	 */
 	private void addTransition(int oldId, int newId) {
-		int id = this.edgeCounter++;
+		int id = this.edgeCounter;
 		transitions.add("state" + oldId + " -> edge" + id);
 		transitions.add("edge" + id + " -> state" + newId);
 	}
