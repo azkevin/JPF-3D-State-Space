@@ -145,6 +145,8 @@ public class DummyGame implements IGameLogic {
         Texture greenTexture = new Texture("/textures/greenblockwithborder.png");
         Mesh redMesh = new Mesh(positions, textCoords, indices, redTexture);
         Mesh greenMesh = new Mesh(positions, textCoords, indices, greenTexture);
+        
+        //TODO Unsure what the algorithm could be for diagramming states and edges properly
         gameItems = new GameItem[states.size() + edges.size()];
         for(int i = 0; i < states.size(); i++) {
         	GameItem gameItem = new GameItem(redMesh);
@@ -153,7 +155,7 @@ public class DummyGame implements IGameLogic {
         }
         for(int i = states.size(); i < states.size() + edges.size(); i++) {
         	GameItem gameItem = new GameItem(greenMesh);
-            gameItem.setPosition(-6 + i*2, 2, -11);
+            gameItem.setPosition(-5 + i*2, 2, -11);
             gameItems[i] = gameItem;
         }
     }
