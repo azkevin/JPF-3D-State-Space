@@ -65,7 +65,7 @@ public class StateSpace3D extends ListenerAdapter {
 		
         try {
             boolean vSync = true;
-            IGameLogic gameLogic = new DummyGame();
+            IGameLogic gameLogic = new DummyGame(states, edges, transitions);
             GameEngine gameEng = new GameEngine("JPF-3D-State-Space", 600, 480, vSync, gameLogic);
             gameEng.start();
         } catch (Exception excp) {

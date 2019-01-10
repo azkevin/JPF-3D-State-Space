@@ -2,11 +2,18 @@ package org.lwjglb.game;
 
 import org.joml.Vector3f;
 import static org.lwjgl.glfw.GLFW.*;
+
+import java.util.HashMap;
+import java.util.List;
+
 import org.lwjglb.engine.GameItem;
 import org.lwjglb.engine.IGameLogic;
 import org.lwjglb.engine.Window;
 import org.lwjglb.engine.graph.Mesh;
 import org.lwjglb.engine.graph.Texture;
+
+import model.Edge;
+import model.State;
 
 public class DummyGame implements IGameLogic {
 
@@ -21,66 +28,60 @@ public class DummyGame implements IGameLogic {
     private final Renderer renderer;
 
     private GameItem[] gameItems;
+    
+    // Create the Mesh
+    private float[] positions = new float[] {
+        // V0
+        -0.5f, 0.5f, 0.5f,
+        // V1
+        -0.5f, -0.5f, 0.5f,
+        // V2
+        0.5f, -0.5f, 0.5f,
+        // V3
+        0.5f, 0.5f, 0.5f,
+        // V4
+        -0.5f, 0.5f, -0.5f,
+        // V5
+        0.5f, 0.5f, -0.5f,
+        // V6
+        -0.5f, -0.5f, -0.5f,
+        // V7
+        0.5f, -0.5f, -0.5f,
+        
+        // For text coords in top face
+        // V8: V4 repeated
+        -0.5f, 0.5f, -0.5f,
+        // V9: V5 repeated
+        0.5f, 0.5f, -0.5f,
+        // V10: V0 repeated
+        -0.5f, 0.5f, 0.5f,
+        // V11: V3 repeated
+        0.5f, 0.5f, 0.5f,
 
-    public DummyGame() {
-        renderer = new Renderer();
-    }
+        // For text coords in right face
+        // V12: V3 repeated
+        0.5f, 0.5f, 0.5f,
+        // V13: V2 repeated
+        0.5f, -0.5f, 0.5f,
 
-    @Override
-    public void init(Window window) throws Exception {
-        renderer.init(window);
-        // Create the Mesh
-        float[] positions = new float[] {
-            // V0
-            -0.5f, 0.5f, 0.5f,
-            // V1
-            -0.5f, -0.5f, 0.5f,
-            // V2
-            0.5f, -0.5f, 0.5f,
-            // V3
-            0.5f, 0.5f, 0.5f,
-            // V4
-            -0.5f, 0.5f, -0.5f,
-            // V5
-            0.5f, 0.5f, -0.5f,
-            // V6
-            -0.5f, -0.5f, -0.5f,
-            // V7
-            0.5f, -0.5f, -0.5f,
-            
-            // For text coords in top face
-            // V8: V4 repeated
-            -0.5f, 0.5f, -0.5f,
-            // V9: V5 repeated
-            0.5f, 0.5f, -0.5f,
-            // V10: V0 repeated
-            -0.5f, 0.5f, 0.5f,
-            // V11: V3 repeated
-            0.5f, 0.5f, 0.5f,
+        // For text coords in left face
+        // V14: V0 repeated
+        -0.5f, 0.5f, 0.5f,
+        // V15: V1 repeated
+        -0.5f, -0.5f, 0.5f,
 
-            // For text coords in right face
-            // V12: V3 repeated
-            0.5f, 0.5f, 0.5f,
-            // V13: V2 repeated
-            0.5f, -0.5f, 0.5f,
-
-            // For text coords in left face
-            // V14: V0 repeated
-            -0.5f, 0.5f, 0.5f,
-            // V15: V1 repeated
-            -0.5f, -0.5f, 0.5f,
-
-            // For text coords in bottom face
-            // V16: V6 repeated
-            -0.5f, -0.5f, -0.5f,
-            // V17: V7 repeated
-            0.5f, -0.5f, -0.5f,
-            // V18: V1 repeated
-            -0.5f, -0.5f, 0.5f,
-            // V19: V2 repeated
-            0.5f, -0.5f, 0.5f,
-        };
-        float[] textCoords = new float[]{
+        // For text coords in bottom face
+        // V16: V6 repeated
+        -0.5f, -0.5f, -0.5f,
+        // V17: V7 repeated
+        0.5f, -0.5f, -0.5f,
+        // V18: V1 repeated
+        -0.5f, -0.5f, 0.5f,
+        // V19: V2 repeated
+        0.5f, -0.5f, 0.5f,
+    };
+    
+    private float[] textCoords = new float[]{
             0.0f, 0.0f,
             0.0f, 0.5f,
             0.5f, 0.5f,
@@ -111,7 +112,8 @@ public class DummyGame implements IGameLogic {
             0.5f, 0.5f,
             1.0f, 0.5f,
         };
-        int[] indices = new int[]{
+
+    private int[] indices = new int[]{
             // Front face
             0, 1, 3, 3, 1, 2,
             // Top Face
@@ -124,11 +126,29 @@ public class DummyGame implements IGameLogic {
             16, 18, 19, 17, 16, 19,
             // Back face
             4, 6, 7, 5, 4, 7,};
+    
+	private HashMap<Integer, State> states;
+	private List<Edge> edges;
+	private List<String> transitions;
+    
+    public DummyGame(HashMap<Integer, State> states, List<Edge> edges, List<String> transitions) {
+        this.states = states;
+        this.edges = edges;
+        this.transitions = transitions;
+    	renderer = new Renderer();
+    }
+
+    @Override
+    public void init(Window window) throws Exception {
+        renderer.init(window);
         Texture texture = new Texture("/textures/redblockwithborder.png");
         Mesh mesh = new Mesh(positions, textCoords, indices, texture);
-        GameItem gameItem = new GameItem(mesh);
-        gameItem.setPosition(0, 0, -2);
-        gameItems = new GameItem[]{gameItem};
+        gameItems = new GameItem[states.size()];
+        for(int i = 0; i < states.size(); i++) {
+        	GameItem gameItem = new GameItem(mesh);
+            gameItem.setPosition(0, 0 + i*4, -11);
+            gameItems[i] = gameItem;
+        }
     }
 
     @Override
@@ -174,12 +194,12 @@ public class DummyGame implements IGameLogic {
             }
             gameItem.setScale(scale);
 
-            // Update rotation angle
-            float rotation = gameItem.getRotation().x + 1.5f;
-            if (rotation > 360) {
-                rotation = 0;
-            }
-            gameItem.setRotation(rotation, rotation, rotation);
+            // Disable rotation
+            // float rotation = gameItem.getRotation().x + 1.5f;
+            // if (rotation > 360) {
+            //     rotation = 0;
+            // }
+            // gameItem.setRotation(rotation, rotation, rotation);
         }
     }
 
