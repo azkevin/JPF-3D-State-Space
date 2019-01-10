@@ -72,8 +72,8 @@ public class Window {
         // Center our window
         glfwSetWindowPos(
                 windowHandle,
-                (vidmode.width() - width) / 2,
-                (vidmode.height() - height) / 2
+                (vidmode.width() - width) / 4,
+                (vidmode.height() - height) / 4
         );
 
         // Make the OpenGL context current
@@ -90,7 +90,7 @@ public class Window {
         GL.createCapabilities();
 
         // Set the clear color
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(255.0f, 255.0f, 255.0f, 0.0f);
         glEnable(GL_DEPTH_TEST);
     }
 

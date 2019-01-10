@@ -3,6 +3,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.lwjglb.engine.GameEngine;
+import org.lwjglb.engine.IGameLogic;
+import org.lwjglb.game.DummyGame;
+
 import gov.nasa.jpf.Config;
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.ListenerAdapter;
@@ -59,11 +63,15 @@ public class StateSpace3D extends ListenerAdapter {
 			System.out.println(transition);
 		}
 		
-		/*
-		 * A method here that takes in the collection of states and transitions
-		 * and creates the 3D state space to the user. Example method call below
-		 */
-		//create3DStateSpace(this.states, this.edges);
+        try {
+            boolean vSync = true;
+            IGameLogic gameLogic = new DummyGame();
+            GameEngine gameEng = new GameEngine("JPF-3D-State-Space", 600, 480, vSync, gameLogic);
+            gameEng.start();
+        } catch (Exception excp) {
+            excp.printStackTrace();
+            System.exit(-1);
+        }
 	}
 
 	@Override
