@@ -2,6 +2,10 @@
 
 A JPF listener that allows the user to view and analyze their application’s state space in a 3D environment coded in Java using LWJGL libraries (OpenGL).
 
+<img src="https://i.imgur.com/EDsto4r.png">
+
+<img src="https://i.imgur.com/sWlqUI7.png">
+
 ## Setup using Eclipse
 
 1. Install [Eclipse IDE for Java EE Developers](https://www.eclipse.org/downloads/packages/).
